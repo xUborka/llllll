@@ -3,3 +3,11 @@ body { font-family: 'Lobster', cursive; margin: 0; padding: 0;}
 .full-screen { width: 100vw; min-height: 100vh; }
 .flex-center { display: flex; flex-direction: column; justify-content: center; align-items: center}
 .text-xl { font-size: 4rem }
+.login-form {
+    padding-left: 30;
+    padding-right: 30;
+    padding-top: 15;
+    padding-bottom: 15;
+    background-color: #81c3fc9d;
+    border-radius: 20px;
+  }
