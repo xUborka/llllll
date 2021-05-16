@@ -40,8 +40,8 @@ def logout(user_data):
     response.set_cookie('session_cookie', '', expires=0)
     return response
 
-@app.route('/create_anon_user', methods=['POST'])
-def create_anon_user():
+@app.route('/trade_token_for_cookie', methods=['POST'])
+def trade_token_for_cookie():
     id_token = request.form['idToken']
     expires_in = datetime.timedelta(days=5)
 
@@ -53,12 +53,12 @@ def create_anon_user():
 
     return response
 
-@app.route('/auth_needed')
+@app.route('/main')
 @login_required
-def auth_needed(user_data):
+def main(user_data):
     uid = user_data['user_id']
     context = {"user_id": uid}
-    return render_template('index.html', context=context)
+    return render_template('main.html', context=context)
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)

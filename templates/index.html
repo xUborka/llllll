@@ -1,59 +1,50 @@
 <html>
-
-<head>
-    <title>llllll</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
-
-    <!-- TODO: Add SDKs for Firebase products that you want to use
+    <head>
+        <title>llllll</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+        
+        <!-- TODO: Add SDKs for Firebase products that you want to use
             https://firebase.google.com/docs/web/setup#available-libraries -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
-    <script src="{{ url_for('static', filename='login.js') }}"></script>
-</head>
-
-<body>
-    <div class="container-fluid">
-        <div class="row h-100">
-            <div class="col-5 align-self-center"></div>
-            <div class="col-2 align-self-center">
-                {% if context.user_id %}
-                <h3> {{context.user_id }} </h3>
-                <button class="btn btn-primary" id="Logout">Logout</button>
-                {% else %}
-                <div class="login-form text-center">
-                    
-                    <h3 class="koho"> Welcome </h3>
-                    <span class="material-icons-outlined">email</span>
-                    <span class="material-icons-outlined">add</span>
-                    <span class="material-icons-outlined">password</span>
-                    <div class="mb-1 text-center">
-                        <input type="email" class="form-control koho" id="exampleInputEmail1">
-                    </div>
-                    <div class="mb-2 text-center">
-                        <input type="password" class="form-control koho" id="exampleInputPassword1">
-                    </div>
-                    <div class="col-12 text-center">
-                        <button class="btn btn-outline-light btn-sm" id="Login">Sign In</button>
-                        <!-- <button class="btn btn-light" id="Anon">Anonymous</button> -->
+        <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+        <!-- Own CSS + JS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+        <script src="{{ url_for('static', filename='script/index.js') }}"></script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row h-100">
+                <div class="col-5 align-self-center"></div>
+                <div class="col-2 align-self-center">
+                    <div class="login-form text-center">
+                        <h3 class="koho"> Welcome </h3>
+                        <span class="material-icons-outlined">email</span>
+                        <span class="material-icons-outlined">add</span>
+                        <span class="material-icons-outlined">password</span>
+                        <div class="mb-1 text-center">
+                            <input type="email" class="form-control koho" id="exampleInputEmail1">
+                        </div>
+                        <div class="mb-2 text-center">
+                            <input type="password" class="form-control koho" id="exampleInputPassword1">
+                        </div>
+                        <div class="col-12 text-center">
+                            <button class="btn btn-outline-light btn-sm" id="Login">Sign In</button>
+                            <!-- <button class="btn btn-light" id="Anon">Anonymous</button> -->
+                        </div>
                     </div>
                 </div>
-                {% endif %}
+                <div class="col-5 align-self-center"></div>
+
             </div>
-            <div class="col-5 align-self-center"></div>
-
         </div>
-    </div>
-
-</body>
-
+    </body>
 </html>

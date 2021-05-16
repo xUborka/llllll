@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=KoHo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+.lobster{
+  font-family: 'Lobster', cursive;
+}
+.koho{
+  font-family: 'KoHo', sans-serif;
+}
+.montserrat{
+  font-family: 'Montserrat', sans-serif;
+}
+.navbar-brand {
+  padding-left: 30;
+  padding-right: 30;
+}
+.nav-link{
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  color: #ffffff;
+}
+.logout{
+  padding-right: 30;
+}
+.row{
+  margin-right: 0;
+  margin-left: 0;
+}
+#full-container{
+  padding-left: 0;
+  padding-right: 0;
+}
+.form-control:focus {
+  border-color: #ffffff;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(134, 134, 134, 0.8);
+}
