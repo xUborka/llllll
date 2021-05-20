@@ -1,57 +1,18 @@
-from flask import Flask, render_template, redirect, request, jsonify, make_response
+from flask import Flask, render_template, redirect, request, jsonify, make_response, Response, json
 import firebase_admin
-from firebase_admin import auth
-import datetime
-from functools import wraps
-import os
-import time
+from cv import cv_page
+from login import login_page, login_required
 
 firebase_admin.initialize_app()
 app = Flask(__name__)
+app.register_blueprint(cv_page)
+app.register_blueprint(login_page)
 
-
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        session_cookie = request.cookies.get('session_cookie')
-        if not session_cookie:
-            return redirect('/')
-        try:
-            decoded_claims = auth.verify_session_cookie(session_cookie, check_revoked=True)
-        except (auth.InvalidSessionCookieError, auth.UserNotFoundError) as e:
-            print(e)
-            return redirect('/')
-        return f(decoded_claims, *args, **kwargs)
-    return decorated_function
-
-def format_server_time():
-    serve_time = time.localtime()
-    return time.strftime("%I:%M:%S %p", serve_time)
 
 @app.route('/')
 def index():
-    context = { "server_time" : format_server_time()}
-    return render_template('index.html', context=context)
+    return render_template('index.html')
 
-@app.route('/logout')
-@login_required
-def logout(user_data):
-    response = make_response(redirect('/'))
-    response.set_cookie('session_cookie', '', expires=0)
-    return response
-
-@app.route('/trade_token_for_cookie', methods=['POST'])
-def trade_token_for_cookie():
-    id_token = request.form['idToken']
-    expires_in = datetime.timedelta(days=5)
-
-    session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
-    response = jsonify({'status': 'success'})
-    # Set cookie policy for session cookie.
-    expires = datetime.datetime.now() + expires_in
-    response.set_cookie('session_cookie', session_cookie, expires=expires, samesite='Lax', secure=True)
-
-    return response
 
 @app.route('/main')
 @login_required
