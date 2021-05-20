@@ -5,7 +5,7 @@ cv_page = Blueprint('cv_page', __name__,
 
 @cv_page.route('/cv')
 def cv():
-    return render_template('index.html')
+    return render_template('cv.html')
 
 def sort_json(in_json):
     # Return None if our input is invalid (e.g. None, Missing keys, etc)
