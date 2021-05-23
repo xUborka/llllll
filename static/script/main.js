@@ -14,9 +14,28 @@ firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
 $(document).ready(function(){
+    var line_nuber = 1;
     $('#Logout').click(function(){
         firebase.auth().signOut().then(() => {
             window.location.assign('/logout');
         });
     });
+
+    function returnData(param) {
+        console.log(param);
+        $('#console').append("<b> > " + line_nuber.toString() + "\t:\t</b>" + param + '<br>');
+        line_nuber += 1;
+    }
+
+    $('#Submit').click(function(){
+        var editor_ref = ace.edit("editor");
+        return $.post('/submit', {"code": editor_ref.getValue()}, function(data){
+            returnData(data);
+        });
+    });
+
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/dracula");
+    editor.session.setMode("ace/mode/python");
+    document.getElementById('editor').style.fontSize='16px';
 });
