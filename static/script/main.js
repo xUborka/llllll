@@ -23,7 +23,7 @@ $(document).ready(function(){
 
     function returnData(param) {
         console.log(param);
-        $('#console').append("<b> > " + line_nuber.toString() + "\t:\t</b>" + param + '<br>');
+        $('#console').append("<b> > " + line_nuber.toString() + " : </b>" + param + '<br>');
         line_nuber += 1;
     }
 
