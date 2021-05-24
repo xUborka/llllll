@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request
 import firebase_admin
+from flask.json import jsonify
 from cv import cv_page
 from login import login_page, login_required
-import subprocess
+import requests
 
 
 firebase_admin.initialize_app()
@@ -19,11 +20,9 @@ def index():
 @login_required
 def submit(user_data):
     uid = user_data['user_id']
-    print(f"{request.form['code']} + {uid}")
-    with open("dummy_output.py", "w") as out_file:
-        out_file.write(request.form['code'])
-    sp = subprocess.run(["python", "dummy_output.py"], capture_output=True)
-    return sp.stdout
+    code = request.form['code']
+    response = requests.post("http://localhost:8080/python/execute", json={'uid': uid, 'code': code})
+    return response.text
 
 @app.route('/main')
 @login_required
