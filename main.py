@@ -22,8 +22,8 @@ def index():
 def submit(user_data):
     uid = user_data['user_id']
     code = request.form['code']
-    response = requests.post("http://localhost:8080/python/execute", json={'uid': uid, 'code': code})
-    # response = requests.post(os.environ.get("CODE_RUNNER") + "/python/execute", json={'uid': uid, 'code': code})
+    # response = requests.post("http://localhost:8080/python/execute", json={'uid': uid, 'code': code})
+    response = requests.post(os.environ.get("CODE_RUNNER") + "/python/execute", json={'uid': uid, 'code': code})
     return response.text
 
 @app.route('/main')
