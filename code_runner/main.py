@@ -16,7 +16,10 @@ def python_execute():
     with open("dummy_output.py", "w") as out_file:
         out_file.write(payload['code'])
     sp = subprocess.run(["python", "dummy_output.py"], capture_output=True)
-    return {'stdout': sp.stdout}
+    std_out = sp.stdout.decode("utf-8")
+    print(sp)
+    print(std_out)
+    return {'stdout': std_out }
 
 
 if __name__ == "__main__":
