@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
 import firebase_admin
-from flask.json import jsonify
 from cv import cv_page
 from login import login_page, login_required
 import requests
@@ -22,15 +21,13 @@ def index():
 def submit(user_data):
     uid = user_data['user_id']
     code = request.form['code']
-    # response = requests.post("http://localhost:8080/python/execute", json={'uid': uid, 'code': code})
     response = requests.post(os.environ.get("CODE_RUNNER") + "/python/execute", json={'uid': uid, 'code': code})
     return response.text
 
 @app.route('/main')
 @login_required
 def main(user_data):
-    uid = user_data['user_id']
-    context = {"user_id": uid}
+    context = {"user_id": user_data['user_id']}
     return render_template('main.html', context=context)
 
 if __name__ == '__main__':

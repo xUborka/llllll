@@ -27,10 +27,20 @@ $(document).ready(function(){
         line_nuber += 1;
     }
 
-    $('#Submit').click(function(){
+    $('#SubmitButton').click(function(){
+        document.getElementById("SubmitButton").disabled = true;
+        document.getElementById("SubmitLoading").hidden = false;
+        document.getElementById("SubmitText").hidden = true;
+        setTimeout(function(){
+            document.getElementById("SubmitButton").disabled = false;
+            document.getElementById("SubmitLoading").hidden = true;
+            document.getElementById("SubmitText").hidden = false;
+        },2000);
         var editor_ref = ace.edit("editor");
         return $.post('/submit', {"code": editor_ref.getValue()}, function(data){
-            returnData(data);
+            data = JSON.parse(data);
+            console.log(data);
+            returnData(data['stdout']);
         });
     });
 
