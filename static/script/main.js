@@ -23,7 +23,14 @@ $(document).ready(function(){
 
     function returnData(param) {
         console.log(param);
-        $('#console').append("<b> > " + line_nuber.toString() + " : </b>" + param + '<br>');
+        var res = '';
+        if (param['rc'] == 0){
+            res = "<p class=\"text-white\"><b> > " + line_nuber.toString() + " : </b>" + param['stdout'].replace(/\n/g, '<br>') + '</p>';
+        } else {
+            res = "<p class=\"text-danger\"><b> > " + line_nuber.toString() + " : </b>" + param['stderr'] + '</p>';
+        }
+        var value = res.concat($('#console').html())
+        $('#console').html(value);
         line_nuber += 1;
     }
 
@@ -40,7 +47,7 @@ $(document).ready(function(){
         return $.post('/submit', {"code": editor_ref.getValue()}, function(data){
             data = JSON.parse(data);
             console.log(data);
-            returnData(data['stdout']);
+            returnData(data);
         });
     });
 
