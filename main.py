@@ -1,28 +1,20 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 import firebase_admin
 from cv import cv_page
 from login import login_page, login_required
-import requests
-import os
+from translate.translate import translate_page
 
 
 firebase_admin.initialize_app()
 app = Flask(__name__)
 app.register_blueprint(cv_page)
 app.register_blueprint(login_page)
+app.register_blueprint(translate_page)
 
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
-@app.route('/submit', methods=["POST"])
-@login_required
-def submit(user_data):
-    uid = user_data['user_id']
-    code = request.form['code']
-    response = requests.post(os.environ.get("CODE_RUNNER") + "/python/execute", json={'uid': uid, 'code': code})
-    return response.text
 
 @app.route('/main')
 @login_required
