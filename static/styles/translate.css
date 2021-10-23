@@ -1,21 +1,70 @@
-body, html {
-    height: 100%;
-    width: 100%;
+@keyframes example {
+    from {background-color: red;}
+    to {background-color: yellow;}
 }
 
-.bg { 
-    /* The image used */
-    /* background-image: url("/static/landing_bg.jpg"); */
-  
-    /* Full height */
-    height: 100%; 
-  
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+.bg{
+    min-height: 100%;
+    background-color: #181722;
 }
 
-.center{
-    margin: auto;
+.btn-light{
+    background: #181722;
+    border: 2px solid #EDEFF1;
+    color: #EDEFF1;
+}
+
+.btn-light:hover, .btn-light:focus, .btn-light:active, .btn-light.active{
+    background: #EDEFF1;
+    color: #181722;
+    border: 2px solid #181722;
+}
+
+.form-group{
+    padding-right: 25px;
+    padding-left: 25px;
+}
+
+ #form{
+    font-family: 'Zen Kurenaido', sans-serif;
+ }
+
+ #loading_text{
+     font-size: 125%;
+ }
+
+.site-font{
+    font-family: 'Zen Kurenaido', sans-serif;
+    font-weight: bold;
+}
+
+.spinner-border{
+    padding: 20px;
+    margin-top: 15px;
+    margin-bottom: 12px;
+}
+
+textarea:focus,
+input[type="text"],
+input[type="text"]:focus,
+.uneditable-input:focus {   
+  border: 2px solid #181722;
+  box-shadow: none;
+  outline: 0 none;
+  font-weight: bold;
+}
+
+#my_column{
+    padding: 20px;
+    padding-top: 35px;
+    background-color: #EDEFF1;
+    border-radius: 15px;
+    border: 3px solid #EDEFF1;
+    /* animation-name: example;
+    animation-duration: 4s;
+    animation-fill-mode: forwards; */
+}
+
+.fill{
+    min-height: 100%;
 }

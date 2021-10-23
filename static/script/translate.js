@@ -14,7 +14,7 @@ function loading() {
     $("#loading").show();
     $("#loading_text").show();
     $("#form").hide();
-    $("#my_column").removeClass('col-sm');
-    $("#my_column").addClass('col-sm-6');
+    // $("#my_column").removeClass('col-sm');
+    // $("#my_column").addClass('col-sm-6');
     setTimeout(worker, 1500);
 }
