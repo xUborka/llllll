@@ -1,40 +1,73 @@
-from flask import redirect, request, Blueprint, jsonify, render_template
-from usp.tree import sitemap_tree_for_homepage
-import requests
-from bs4 import BeautifulSoup
+""" Endpoints for the translation API """
+from urllib.parse import urlparse
+from flask import request, Blueprint, render_template, redirect
+from translate.database import DatabaseWrapper
+from translate.utils import check_sitemap, parse_all_pages
 
 translate_page = Blueprint('translate', __name__, template_folder='templates')
 
+
 @translate_page.route('/translate', methods=['GET'])
 def translate_main_page():
+    ''' Landing Page '''
     return render_template('translate.html')
+
+
+@translate_page.route('/page-analysis/<url>', methods=['GET'])
+def page_analysis(url: str):
+    ''' Remove cached results, run analysis and update cache'''
+    database_reference = DatabaseWrapper()
+    database_reference.remove_document(url)
+    return redirect(f'/url_parser/{url}')
+
 
 @translate_page.route('/url_parser', methods=['POST'])
 def form_post_endpoint():
-    url = request.form['url']
-    return redirect('/single_page_parser/' + url)
+    ''' Endpoint for posting the url '''
+    url = urlparse(request.form['url'])
+    if url.netloc != '':
+        url = url.netloc
+    else:
+        url = url.path
+    return redirect(f'/url_parser/{url}')
 
-@translate_page.route('/single_page_parser/<url>')
-def single_page_parser(url):
-    if url == 'test':
-        return render_template('dummy_template.html', data={'b': ['a', 'b', 'c']})
+@translate_page.route('/url_parser/<url>', methods=['GET'])
+def form_post_url(url:str):
+    database_reference = DatabaseWrapper()
+    resp = database_reference.get_status(url)
+    site_data = {'url': url, 'pages': [], 'cached': False}
+    if resp is None:
+        # If there is no entry in the database --> Collect pages
+        sites = check_sitemap(url)
+        database_reference.set_status(url, {'url': url, 'pages': sites})
+    else:
+        # If there is an entry --> Check if pages are collected already
+        if 'pages' in resp and len(resp['pages']) > 0:
+            site_data['cached'] = True
+            sites = resp['pages']
+        else:
+            sites = check_sitemap(url)
+            database_reference.set_status(url, {'url': url, 'pages': sites})
 
-    tree = sitemap_tree_for_homepage('http://' + url)
-    urls = {}
-    summ = 0
-    for page in tree.all_pages():
-        urls[page.url] = None
-        resp = requests.get(page.url)
-        print(resp.encoding)
-        if resp.status_code == 200:
-            soup = BeautifulSoup(resp.content, features="html.parser")
-            for script in soup(["script", "style"]):
-                script.extract()
-            text = soup.get_text()
-            text = text.strip('\t')
-            text = text.strip('\n')
-            urls[page.url] = text.split()
-            summ += len(urls[page.url])
-            print(urls[page.url])
-    print(summ)
-    return render_template('dummy_template.html', data=urls)
+    site_data['pages'] = sites
+    return render_template('pages_overview.html', data=site_data)
+
+@translate_page.route('/analyze/<url>', methods=['GET'])
+def analyze_pages(url:str):
+    database_reference = DatabaseWrapper()
+    status_resp = database_reference.get_status(url)
+    pages_resp = database_reference.get_pages(url)
+    pages = status_resp['pages']
+    page_data = {'url': url, 'num_pages': len(pages), 'sum_words': 0}
+    if pages_resp is None:
+        result = parse_all_pages(pages)
+        database_reference.set_pages(url, result)
+        page_data['sum_words'] = sum([len(i['words']) for i in result.values()])
+    else:
+        if len(pages_resp) > 0:
+            page_data['sum_words'] = sum([len(i['words']) for i in pages_resp.values()])
+        else:
+            result = parse_all_pages(pages)
+            database_reference.set_pages(url, result)
+            page_data['sum_words'] = sum([len(i['words']) for i in result.values()])
+    return render_template('analysis_overview.html', data=page_data)

@@ -1,11 +1,13 @@
 from flask import Flask, render_template
 import firebase_admin
+from firebase_admin import credentials
 from cv import cv_page
 from login import login_page, login_required
 from translate.translate import translate_page
 
 
-firebase_admin.initialize_app()
+cred = credentials.Certificate("key.json")
+firebase_admin.initialize_app(cred)
 app = Flask(__name__)
 app.register_blueprint(cv_page)
 app.register_blueprint(login_page)

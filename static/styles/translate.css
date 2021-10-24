@@ -38,6 +38,10 @@
     font-weight: bold;
 }
 
+.highlight-font{
+    color: #63ADF2;
+}
+
 .spinner-border{
     padding: 20px;
     margin-top: 15px;

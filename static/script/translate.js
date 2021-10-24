@@ -16,5 +16,12 @@ function loading() {
     $("#form").hide();
     // $("#my_column").removeClass('col-sm');
     // $("#my_column").addClass('col-sm-6');
-    setTimeout(worker, 1500);
+    $("#loading_url").text($("#exampleInputEmail").val());
+    // setTimeout(worker, 1500);
+}
+
+function rerunLoading(){
+    $("#page_content").hide();
+    $("#loading").show();
+    $("#loading_text").show();
 }
