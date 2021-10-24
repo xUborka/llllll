@@ -24,10 +24,13 @@ def format_url(url: str) -> str:
 
 def parse_all_pages(url_list: list) -> dict:
     pages = {}
-    with Pool(10) as pool:
-        tmp_result = pool.map(parse_page, url_list)
-    for res in tmp_result:
+    pool = Pool(processes=10)
+    for res in pool.imap(parse_page, url_list):
         pages[res['url']] = res
+        print(res)
+        # tmp_result = pool.map(parse_page, url_list)
+    # for res in tmp_result:
+    #     pages[res['url']] = res
     return pages
 
 
