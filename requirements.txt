@@ -1,5 +1,5 @@
 Flask==1.1.2
-firebase-admin==5.0.0
+firebase-admin==5.0.3
 requests==2.25.1
 ultimate-sitemap-parser
 bs4

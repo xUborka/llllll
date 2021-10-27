@@ -3,7 +3,7 @@ from multiprocessing import Pool
 from usp.tree import sitemap_tree_for_homepage
 import requests
 from bs4 import BeautifulSoup
-
+from translate.database import DatabaseWrapper
 
 def check_sitemap(url: str) -> list:
     ''' Uses usp.tree to find the sitemap '''
@@ -22,15 +22,12 @@ def format_url(url: str) -> str:
         return url
     return 'http://' + url
 
-def parse_all_pages(url_list: list) -> dict:
+def parse_all_pages(db_ref: DatabaseWrapper, root_url: str, url_list: list) -> dict:
     pages = {}
     pool = Pool(processes=10)
     for res in pool.imap(parse_page, url_list):
+        db_ref.set_page(root_url, res['url'], res)
         pages[res['url']] = res
-        print(res)
-        # tmp_result = pool.map(parse_page, url_list)
-    # for res in tmp_result:
-    #     pages[res['url']] = res
     return pages
 
 

@@ -34,8 +34,13 @@
                 <div class="col-sm align-self-center text-center" id="my_column">
                     <div class="site-font" id="loading_text" style="display: none;">Looking around on <span class="highlight-font" id="loading_url"></span> ...</div>
                     <div class="spinner-border" id="loading" role="status" style="display: none;"></div>
+                    <p class="text-center" id="loading_text_bar" style="display: none;">Loading...</p>
+                    <div class="progress" id="loading_bar" style="display: none;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" id="bar" role="progressbar"
+                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                    </div>
                     <div class="site-font" id="page_content">
-                        <p>Finished parsing <span class="highlight-font">{{ data.url }}</span></p>
+                        <p>Finished parsing <span class="highlight-font" id="parsed_url">{{ data.url }}</span></p>
                         <p>Found <span class="highlight-font">{{ data.pages|length }}</span> pages</p>
                         {% if data.cached == True %}
                             <p><span class="highlight-font">Cached</span> result from our database</p>
@@ -43,7 +48,7 @@
                             </form>
                         {% endif %}
                         {% if data.pages|length > 0 %}
-                            <a href="/analyze/{{data.url}}" class="btn btn-light">Analyze Pages</a>
+                            <a href="/analyze/{{data.url}}"><button class="btn btn-light" onclick="runPageAnalysis();">Analyze Pages</button></a>
                             <a href="/translate" class="btn btn-light">Back</a>
                         {% else %}
                             <p>Incorrect <span class="highlight-font">URL</span> or we didn't find any <span class="highlight-font">sitemaps</span></p>

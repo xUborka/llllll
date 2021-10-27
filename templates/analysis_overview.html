@@ -35,22 +35,19 @@
                     <div class="site-font" id="loading_text" style="display: none;">Looking around on <span class="highlight-font" id="loading_url"></span> ...</div>
                     <div class="spinner-border" id="loading" role="status" style="display: none;"></div>
                     <div class="site-font" id="page_content">
-                        <p>Finished analyzing <span class="highlight-font">{{ data.url }}</span></p>
+                        <p>Finished analyzing <span class="highlight-font" id="parsed_url">{{ data.url }}</span></p>
                         <p>Found <span class="highlight-font">{{ data.num_pages }}</span> pages</p>
-                        <!-- {% if data.cached == True %}
-                            <p><span class="highlight-font">Cached</span> result from our database</p>
-                            <a href="/page-analysis/{{data.url}}"><button class="btn btn-light" onclick="rerunLoading();">Re-run (Clear cache)</button></a>
-                            </form>
-                        {% endif %} -->
                         {% if data.num_pages > 0 %}
                             <p>Found <span class="highlight-font">{{ data.sum_words }}</span> words on these pages</p>
-                            <!-- <a href="/analyze/{{data.url}}" class="btn btn-light">Analyze Pages</a> -->
-                            <a href="/translate" class="btn btn-light">Back</a>
                         {% else %}
                             <p>Incorrect <span class="highlight-font">URL</span> or we didn't find any <span class="highlight-font">sitemaps</span></p>
-                            <a href="/translate" class="btn btn-light">Back</a>
                         {% endif %}
-
+                        {% if data.cached == True %}
+                            <p><span class="highlight-font">Cached</span> result from our database</p>
+                            <a href="/page-word-analysis/{{data.url}}"><button class="btn btn-light" onclick="runPageAnalysis();">Re-run (Clear cache)</button></a>
+                            </form>
+                        {% endif %}
+                        <a href="/translate" class="btn btn-light">Back</a>
                     </div>
                 </div>
                 <div class="col-sm"></div>
