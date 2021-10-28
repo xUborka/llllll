@@ -1,14 +1,15 @@
 function worker() {
     var str_input = $("#parsed_url").text();
     console.log(str_input);
-    // $.get('/progress/' + str_input, function(data) {
-    //     if (data["status_message"] != 'Done!') {
-    //         $("#bar").attr("aria-valuenow", data["status"]);
-    //         $("#bar").css("width", data["status"] + "%");
-    //         $("#loading_text").text(data["message"]);
-    //         setTimeout(worker, 1500)
-    //     }
-    // })
+    $.get('/progress/' + str_input, function(data) {
+        console.log(data["status"]);
+        if (data["status_message"] != 'Done!') {
+            $("#bar").attr("aria-valuenow", data["status"]);
+            $("#bar").css("width", data["status"] + "%");
+            $("#currently_parsing").text(data["message"]);
+            setTimeout(worker, 1500)
+        }
+    })
 }
 
 function loading() {

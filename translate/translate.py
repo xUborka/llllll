@@ -13,6 +13,18 @@ def translate_main_page():
     return render_template('translate.html')
 
 
+@translate_page.route('/progress/<url>', methods=['GET'])
+def progress_check(url: str):
+    database_reference = DatabaseWrapper()
+    status = database_reference.get_status(url)
+    print(status)
+    resp = {'status_message': '',
+            'message': status['currently_analyzed'],
+            'status': int(100*status['finished_parsing'] / status['num_pages'])
+            }
+    return resp
+
+
 @translate_page.route('/page-analysis/<url>', methods=['GET'])
 def page_analysis(url: str):
     ''' Remove cached results, run analysis and update cache'''
@@ -48,7 +60,8 @@ def form_post_url(url: str):
     if resp is None:
         # If there is no entry in the database --> Collect pages
         sites = check_sitemap(url)
-        database_reference.set_status(url, {'url': url, 'pages': sites})
+        database_reference.set_status(
+            url, {'url': url, 'pages': sites, 'num_pages': len(sites)})
     else:
         # If there is an entry --> Check if pages are collected already
         if 'pages' in resp and len(resp['pages']) > 0:
@@ -56,7 +69,8 @@ def form_post_url(url: str):
             sites = resp['pages']
         else:
             sites = check_sitemap(url)
-            database_reference.set_status(url, {'url': url, 'pages': sites})
+            database_reference.set_status(
+                url, {'url': url, 'pages': sites, 'num_pages': len(sites)})
 
     site_data['pages'] = sites
     return render_template('pages_overview.html', data=site_data)

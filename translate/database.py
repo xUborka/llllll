@@ -1,6 +1,7 @@
 ''' Wrapper module around Firestore '''
 import hashlib
 from firebase_admin import firestore
+from firebase_admin import db
 
 
 class DatabaseWrapper:
@@ -44,6 +45,12 @@ class DatabaseWrapper:
         hash_value = hashlib.md5(document_id.encode('utf-8')).hexdigest()
         ref = self.database.collection('status').document(hash_value)
         ref.set(data)
+    
+    def update_status(self, document_id: str, data: dict) -> None:
+        hash_value = hashlib.md5(document_id.encode('utf-8')).hexdigest()
+        ref = self.database.collection('status').document(hash_value)
+        ref.update(data)
+
 
     def remove_status_document(self, document_id: str) -> None:
         hash_value = hashlib.md5(document_id.encode('utf-8')).hexdigest()
@@ -52,3 +59,4 @@ class DatabaseWrapper:
     def remove_pages_document(self, collection_id: str) -> None:
         for ref in self.database.collection(collection_id).stream():
             ref.reference.delete()
+
